@@ -48,6 +48,13 @@ if [ ! "$T" ]; then
 fi
 IMPORTING_ENVSETUP=true source $T/build/make/shell_utils.sh
 
+if (echo -n $1 | grep -q -e "^aospa_") ; then
+    AOSPA_BUILD=$(echo -n $1 | sed -e 's/^aospa_//g')
+else
+    AOSPA_BUILD=
+fi
+export AOSPA_BUILD
+
 # Get all the build variables needed by this script in a single call to the build system.
 function build_build_var_cache()
 {
@@ -521,6 +528,8 @@ function _lunch_meat()
     local product=$1
     local release=$2
     local variant=$3
+
+    check_product $product
 
     TARGET_PRODUCT=$product \
     TARGET_RELEASE=$release \
