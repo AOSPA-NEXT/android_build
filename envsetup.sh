@@ -530,12 +530,12 @@ function _lunch_meat()
     local release=$2
     local variant=$3
 
-    check_product $product
+    check_product $product $release
 
     local T=$(gettop)
     python $T/vendor/aospa/build/tools/barista.py $product
     source_vendorsetup
-    check_product $product
+    check_product $product $release
 
     TARGET_PRODUCT=$product \
     TARGET_RELEASE=$release \
