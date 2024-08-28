@@ -530,20 +530,11 @@ function _lunch_meat()
     local variant=$3
 
     check_product $product
-    if [ $? -ne 0 ]
-    then
-        # if we can't find a product, try to grab it off the AOSPA github
-        T=$(gettop)
-        cd $T > /dev/null
-        vendor/aospa/build/tools/roomservice.py $product
-        cd - > /dev/null
-        check_product $product
-    else
-        T=$(gettop)
-        cd $T > /dev/null
-        vendor/aospa/build/tools/roomservice.py $product true
-        cd - > /dev/null
-    fi
+
+    local T=$(gettop)
+    python $T/vendor/aospa/build/tools/barista.py $product
+    source_vendorsetup
+    check_product $product
 
     TARGET_PRODUCT=$product \
     TARGET_RELEASE=$release \
